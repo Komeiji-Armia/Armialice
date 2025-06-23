@@ -3,55 +3,121 @@ using namespace std;
 
 int main() {
 
-	int N, Q;
+	int N, Q, ANS = 0, Count;
 	cin >> N >> Q;
 
-	vector<int> A(N);
-	
-	for (int i = 0; i < N; i++) {
+	vector<int> A(Q), V(N, 0); //0 = White,1 = Black;
 
-		A[i] = i + 1;
+	if (N == 1) {
 
+
+		for (int i = 0; i < Q; i++) {
+
+			cin >> A[i];
+			A[i]--;
+			if (V[A[i]] == 0) {
+				V[A[i]] = 1;
+				ANS++;
+			}
+			else {
+				V[A[i]] = 0;
+				ANS--;
+			}
+
+			cout << ANS << endl;
+		}
+
+		return 0;
 	}
 
-	int Y=0;
+	if (N == 2) {
+
+
+		for (int i = 0; i < Q; i++) {
+
+			cin >> A[i];
+			A[i]--;
+			if (V[A[i]] == 0) {
+				V[A[i]] = 1;
+
+			}
+			else {
+				V[A[i]] = 0;
+			}
+
+			if (V[0] == 0 && V[1] == 1 || V[0] == 1 && V[1] == 0) {
+				ANS = 1;
+			}
+
+			if (V[0] == 0 && V[1] == 0) {
+				ANS = 0;
+			}
+
+			cout << ANS << endl;
+		}
+
+		return 0;
+	}
 
 	for (int i = 0; i < Q; i++) {
 
+		cin >> A[i];
+		A[i]--;
+		if (V[A[i]] == 0) V[A[i]] = 1;
 
-		int num;
+		else V[A[i]] = 0;
 
-		cin >> num;
+		if (A[i] >= 1 && A[i] < N - 1) {
+	
+			if (V[A[i] - 1] == 0 && V[A[i] + 1] == 0 && V[A[i]] == 1) {//WBW
+				ANS++;
+			}
 
-		if (num == 1) {
+			if (V[A[i] - 1] == 1 && V[A[i] + 1] == 1 && V[A[i]] == 0) {//BWB
+				ANS++;
+			}
 
-			int P, X;
-			cin >> P >> X;
+			if (V[A[i] - 1] == 1 && V[A[i] + 1] == 1 && V[A[i]] == 1) {//WWW
+				ANS--;
+			}
 
-			A[((P+Y-1)%N)] = X;
+			if (V[A[i] - 1] == 0 && V[A[i] + 1] == 0 && V[A[i]] == 0) {//WBW
+				ANS--;
+			}
 
 		}
 
-		else if (num == 2) {
+		else if (A[i] == 0) {
 
-			int P;
-			cin >> P;
+			if (V[A[i] + 1] == 0 && V[A[i]] == 1) {//WW,BW
+				ANS++;
+			}
 
-			cout << A[((P + Y - 1) % N)] << endl;
-
+			if (V[A[i] + 1] == 0 && V[A[i]] == 0) {//BW,WW
+				ANS--;
+			}
 		}
 
 		else {
 
-			int K;
-			cin >> K;
+			if (V[A[i] - 1] == 0 && V[A[i]] == 1) {//WW,WB
+				ANS++;
+			}
 
-			Y += (K % N);
-			Y %= N;
-
+			if (V[A[i] - 1] == 0 && V[A[i]] == 0) {//WB,WW
+				ANS--;
+			}
 		}
 
+		cout << ANS << endl;
+
+		//for (int j = 0; j < V.size(); j++) {
+			//cout << V[j];
+		//}
+
+		//cout << endl;
 	}
 
 	return 0;
+
 }
