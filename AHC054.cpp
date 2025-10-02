@@ -1,4 +1,4 @@
-﻿#include <bits/stdc++.h>
+#include <bits/stdc++.h>
 using namespace std;
 
 int N, ti, tj;
@@ -59,64 +59,45 @@ int main() {
 
 		if (Count == 0) {
 			Count++;
-			vector<pair<int, int>> D;
-
-			
+			vector<pair<int, int>> P;
 
 			if (ti > 0) {
 				if (B[ti - 1][tj] != 'T' && V[ti - 1][tj] == -1) {
-					B[ti - 1][tj] = 'T';
-					D.push_back({ti-1,tj});
+					P.push_back({ ti - 1, tj });
 				}
 			}
 
 			if (ti < N - 1) {
 				if (B[ti + 1][tj] != 'T' && V[ti + 1][tj] == -1) {
-					B[ti + 1][tj] = 'T';
-					D.push_back({ ti +1,tj });
+					P.push_back({ ti + 1, tj });
 				}
 			}
 
 			if (tj > 0) {
 				if (B[ti][tj - 1] != 'T' && V[ti][tj - 1] == -1) {
-					B[ti][tj - 1] = 'T';
-					D.push_back({ ti ,tj-1 });
+					P.push_back({ ti, tj - 1 });
 				}
 			}
 
 			if (tj < N - 1) {
 				if (B[ti][tj + 1] != 'T' && V[ti][tj + 1] == -1) {
-					B[ti][tj + 1] = 'T';
-					D.push_back({ ti ,tj+1 });
+					P.push_back({ ti, tj + 1 });
 				}
 			}
 
-			if (D.size() != 0) {
+			if (P.size() >= 2) {
+				int x = P[0].first;
+				int y = P[0].second;
 
-				vector<pair<int, int>> TREE;
-				int TotalTree = 0;
-
-				for (int i = 0; i < D.size(); i++) {
-
-					//B[D[i].first][D[i].second] = '.';
-
-					if (reachable(pi, pj, D[i].first, D[i].second, B)) {
-						
-						TREE.push_back({D[i].first,D[i].second});
-						//TotalTree++;
-						continue;
-					}
-					else {
-						B[D[i].first][D[i].second] = '.'; // 戻す
-					}
+				B[x][y] = 'T';
+				if (reachable(pi, pj, ti, tj, B)) {
+					cout << 1 << " " << x << " " << y << endl;
+					cout.flush();
+					continue;
 				}
-
-				cout << TREE.size();
-				for (int i = 0; i < TREE.size(); i++) {
-					cout << TREE[i].first << " " << TREE[i].second << " ";
+				else {
+					B[x][y] = '.'; // 戻す
 				}
-				cout << endl;
-				continue;
 			}
 		}
 
